@@ -47,7 +47,9 @@ export class _LoginPage extends Component {
         <button
           onClick={async () => {
             try {
-              const res = await axios.get('http://localhost:5502/investments');
+              const res = await httpRequest.get(
+                'http://localhost:5502/investments'
+              );
               console.log(res);
             } catch (err) {
               console.log(err);

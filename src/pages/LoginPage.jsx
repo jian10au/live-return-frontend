@@ -1,45 +1,69 @@
-import React, { Component, SyntheticEvent } from 'react'
-import {httpRequest} from '../utils/axios'
+import React, { Component, SyntheticEvent } from 'react';
+import { connect } from 'react-redux';
+import { fetchUserAndJWT } from '../actions/userActions';
+import axios from 'axios';
+import { httpRequest } from '../utils/axios';
 
-export class LoginPage extends Component {
+export class _LoginPage extends Component {
+  state = {
+    username: '',
+    password: '',
+  };
 
-    state = {
-        username:"",
-        password:""
-    }
+  handleChange = (event) => {
+    this.setState({ [event.target.name]: event.target.value });
+  };
 
+  handleSubmit = async (event) => {
+    event.preventDefault();
+    console.log('submit button working');
+    console.log(this.state);
+    this.props.fetchUserAndJWT(this.state);
+  };
 
-    handleChange = (event)=> {
-        this.setState({[event.target.name]:event.target.value})
-    }
+  render() {
+    console.log(this.state);
+    return (
+      <div>
+        <form onSubmit={this.handleSubmit}>
+          <input
+            onChange={this.handleChange}
+            type="text"
+            name="username"
+            defaultValue="Provide a username"
+          />
+          <br />
+          <input
+            onChange={this.handleChange}
+            type="text"
+            name="password"
+            defaultValue="Provide passwords"
+          />
+          <br />
+          <button>Create a new user</button>
+          <button>Sign In</button>
+        </form>
 
-    handleSubmit = async (event) => {
-        event.preventDefault();
-        console.log('submit button working')
-        console.log(this.state)
-       try {
-           await httpRequest.post('/registration', this.state)
-        }catch(err){
-            console.log(err)
-       }
-    }
-
-    render() {
-
-        console.log(this.state);
-        return (
-            <div>
-            <form onSubmit={this.handleSubmit}>
-               <input onChange={this.handleChange}type="text" name="username" defaultValue="Provide a username" />
-               <br />
-               <input onChange={this.handleChange} type="text" name="password" defaultValue="Provide passwords" />
-               <br />
-               <button>Create a new user</button>
-               <button>Sign In</button>
-            </form>   
-          </div>
-        )
-    }
+        <button
+          onClick={async () => {
+            try {
+              const res = await axios.get('http://localhost:5502/investments');
+              console.log(res);
+            } catch (err) {
+              console.log(err);
+            }
+          }}
+        ></button>
+      </div>
+    );
+  }
 }
 
-export default LoginPage
+const mapStateToProps = (AppState) => {
+  console.log(AppState);
+  return { user: AppState.user };
+};
+
+export const LoginPage = connect(mapStateToProps, { fetchUserAndJWT })(
+  _LoginPage
+);

@@ -1,9 +1,9 @@
 import React from 'react';
-import { LoginPage } from './pages/LoginPage.jsx';
+import AppRouter from './AppRouter';
 
 class App extends React.Component {
   render() {
-    return <LoginPage />;
+    return <AppRouter />;
   }
 }
 

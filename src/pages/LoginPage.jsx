@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { fetchUserAndJWT } from '../actions/userActions';
 import axios from 'axios';
 import { httpRequest } from '../utils/axios';
+import { Link } from 'react-router-dom';
 
 export class _LoginPage extends Component {
   state = {
@@ -55,7 +56,11 @@ export class _LoginPage extends Component {
               console.log(err);
             }
           }}
-        ></button>
+        >
+          Test
+        </button>
+
+        <Link to={'/investments'}>Here</Link>
       </div>
     );
   }

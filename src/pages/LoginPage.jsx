@@ -1,9 +1,8 @@
 import React, { Component, SyntheticEvent } from 'react';
 import { connect } from 'react-redux';
-import { fetchUserAndJWT } from '../actions/userActions';
-import axios from 'axios';
+import { fetchAuthData } from '../actions/authActions';
 import { httpRequest } from '../utils/axios';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 
 export class _LoginPage extends Component {
   state = {
@@ -17,9 +16,12 @@ export class _LoginPage extends Component {
 
   handleSubmit = async (event) => {
     event.preventDefault();
-    console.log('submit button working');
-    console.log(this.state);
-    this.props.fetchUserAndJWT(this.state);
+    try {
+      await this.props.fetchAuthData(this.state);
+      this.props.history.push('/dashboard');
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   render() {
@@ -67,10 +69,13 @@ export class _LoginPage extends Component {
 }
 
 const mapStateToProps = (AppState) => {
-  console.log(AppState);
-  return { user: AppState.user };
+  console.log(
+    AppState,
+    'I maybe do not need to have global state in Login Page'
+  );
+  return {};
 };
 
-export const LoginPage = connect(mapStateToProps, { fetchUserAndJWT })(
+export const LoginPage = connect(mapStateToProps, { fetchAuthData })(
   _LoginPage
 );

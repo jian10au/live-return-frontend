@@ -1,6 +1,6 @@
-export const userReducer = (state = '', action) => {
+export const authReducer = (state = '', action) => {
   switch (action.type) {
-    case 'FETCH_USER_TOKEN':
+    case 'FETCH_AUTH_DATA':
       return action.payload;
     default:
       return state;

@@ -1,6 +1,6 @@
 import { httpRequest, setAuthorizationToken } from '../utils/axios';
 
-export const fetchUserProfile = async (dispatch) => {
+export const fetchUserProfile = () => async (dispatch) => {
   const userAuthToken = localStorage.getItem('userAuthToken');
   console.log(userAuthToken);
   if (userAuthToken) {

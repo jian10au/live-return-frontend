@@ -1,15 +1,17 @@
 import React from 'react';
-import AppRouter from './AppRouter';
-import { fetchUserProfile } from './actions/userActions';
 import { connect } from 'react-redux';
+import PageRouter from './PageRouter';
+
+import { loadUser } from './actions/authActions';
 
 class App extends React.Component {
   componentDidMount() {
-    this.props.fetchUserProfile();
+    this.props.loadUser();
+    console.log('load User gets called at all?');
   }
   render() {
-    return <AppRouter />;
+    return <PageRouter />;
   }
 }
 
-export default connect(null, { fetchUserProfile })(App);
+export default connect(null, { loadUser })(App);

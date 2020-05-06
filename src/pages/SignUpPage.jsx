@@ -17,10 +17,11 @@ export class _SignUpPage extends Component {
     this.setState({ [event.target.name]: event.target.value });
   };
 
-  handleSubmit = (event) => {
+  handleSubmit = async (event) => {
     console.log(this.state, 'this gets submitted?');
     event.preventDefault();
-    this.props.register(this.state);
+    await this.props.register(this.state);
+    this.props.history.push('/dashboard');
   };
 
   render() {

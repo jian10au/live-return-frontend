@@ -3,15 +3,20 @@ import { connect } from 'react-redux';
 import { httpRequest } from '../utils/axios';
 import { Link } from 'react-router-dom';
 import { signIn } from '../actions/authActions';
+import { timingSafeEqual } from 'crypto';
 
 export class _SignInPage extends Component {
   handleChange = (event) => {
     this.setState({ [event.target.name]: event.target.value });
   };
 
-  handleSubmit = (event) => {
+  handleSubmit = async (event) => {
     event.preventDefault();
-    this.props.signIn(this.state);
+    console.log('signin gets clicked');
+    await this.props.signIn(this.state);
+    if (this.props.isAuthenticated) {
+      this.props.history.push('/dashboard');
+    }
   };
 
   render() {
@@ -39,18 +44,24 @@ export class _SignInPage extends Component {
             required
           />
           <br />
-          <button onClick={this.handleSubmit}>Sign In</button>
+          <button>Sign In</button>
         </form>
         <Link to="/signup">Need to sign Up?</Link>
-        <Link to="/dashboard">To Dashboard if auth passes</Link>
+        {this.props.error.id === 'signin_fail' ? (
+          <div>{this.props.error.msg.msg}</div>
+        ) : null}
       </div>
     );
   }
 }
 
 const mapStateToProps = (AppState) => {
-  console.log(AppState);
-  return {};
+  console.log(AppState, 'AppState from SignInPage');
+
+  return {
+    isAuthenticated: AppState.auth.isAuthenticated,
+    error: AppState.error,
+  };
 };
 
 export const SignInPage = connect(mapStateToProps, { signIn })(_SignInPage);

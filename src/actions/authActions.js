@@ -60,6 +60,7 @@ export const loadUser = () => async (dispatch, getState) => {
       payload: user,
     });
   } catch (err) {
+    console.log(err);
     dispatch({ type: AUTH_ERROR });
     dispatch({
       type: GET_ERRORS,
@@ -140,15 +141,23 @@ export const signIn = ({ email, password }) => async (dispatch) => {
     dispatch({
       type: LOGIN_FAIL,
     });
+    console.log('within Login Fail');
     dispatch({
       type: GET_ERRORS,
       payload: {
         msg: err.response.data,
         status: err.response.status,
-        id: 'login_fail',
+        id: 'signin_fail',
       },
     });
   }
+};
+
+export const signOut = () => {
+  console.log('Sign Out Action Triggered?');
+  return {
+    type: LOGOUT_SUCCESS,
+  };
 };
 
 const returnBasicAuthStr = (username, password) => {

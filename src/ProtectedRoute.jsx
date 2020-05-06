@@ -4,7 +4,10 @@ import { connect } from 'react-redux';
 
 //HOC design may seems very confusing
 const _ProtectedRoute = ({ component: PageComponent, user, ...rest }) => {
-  console.log(user, 'Am i getting the userToken');
+  console.log(
+    user,
+    'Log Out User that determines the conditional rendering From ProtectedRouter'
+  );
   return (
     <Route
       {...rest}

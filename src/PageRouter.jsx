@@ -9,6 +9,7 @@ import DashboardPage from './pages/DashboardPage';
 import { ProtectedRoute } from './ProtectedRoute';
 
 const PageRouter = () => {
+  console.log('renderd from PageRouter');
   return (
     <Switch>
       <ProtectedRoute exact path="/investments" component={InvestmentsPage} />
@@ -18,7 +19,9 @@ const PageRouter = () => {
         exact
         path="/authfailure"
         component={() => {
-          return <div>Unauthorised</div>;
+          return (
+            <div>You have signed out. Please sign in again to continue.</div>
+          );
         }}
       />
       <Route path="/signup" component={SignUpPage} />

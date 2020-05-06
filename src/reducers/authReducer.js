@@ -15,7 +15,7 @@ const initialState = {
   // authToken: null
 
   isAuthenticated: null,
-  isLoading: false,
+  isLoading: null,
   user: null,
 };
 
@@ -44,7 +44,6 @@ export const authReducer = (state = initialState, action) => {
     case LOGIN_SUCCESS:
     case REGISTER_SUCCESS:
       localStorage.setItem('authToken', action.payload.authToken);
-      console.log(action.payload, 'what is the payload to be used?');
       return {
         ...state,
         ...action.payload,
@@ -55,7 +54,7 @@ export const authReducer = (state = initialState, action) => {
     case LOGIN_FAIL:
     case LOGOUT_SUCCESS:
     case REGISTER_FAIL:
-      console.log('why register_fail can run in here?');
+      localStorage.removeItem('authToken');
       return {
         ...state,
         token: null,

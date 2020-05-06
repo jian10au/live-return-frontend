@@ -10,8 +10,19 @@ class App extends React.Component {
     console.log('load User gets called at all?');
   }
   render() {
-    return <PageRouter />;
+    console.log('rendered from App component');
+    // if (this.props.isloadingUser === false) {
+    //   return <PageRouter />;
+    // } else {
+    //   return null;
+    // }
+    return this.props.isloadingUser === false ? <PageRouter /> : null;
   }
 }
 
-export default connect(null, { loadUser })(App);
+const mapStateToProps = (AppState) => {
+  console.log(AppState, 'AppState from App Component');
+  return { isloadingUser: AppState.auth.isLoading };
+};
+
+export default connect(mapStateToProps, { loadUser })(App);

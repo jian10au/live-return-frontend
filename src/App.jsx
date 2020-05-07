@@ -1,15 +1,28 @@
 import React from 'react';
-import AppRouter from './AppRouter';
-import { fetchUserProfile } from './actions/userActions';
 import { connect } from 'react-redux';
+import PageRouter from './PageRouter';
+
+import { loadUser } from './actions/authActions';
 
 class App extends React.Component {
   componentDidMount() {
-    this.props.fetchUserProfile();
+    this.props.loadUser();
+    console.log('load User gets called at all?');
   }
   render() {
-    return <AppRouter />;
+    console.log('rendered from App component');
+    // if (this.props.isloadingUser === false) {
+    //   return <PageRouter />;
+    // } else {
+    //   return null;
+    // }
+    return this.props.isloadingUser === false ? <PageRouter /> : null;
   }
 }
 
-export default connect(null, { fetchUserProfile })(App);
+const mapStateToProps = (AppState) => {
+  console.log(AppState, 'AppState from App Component');
+  return { isloadingUser: AppState.auth.isLoading };
+};
+
+export default connect(mapStateToProps, { loadUser })(App);

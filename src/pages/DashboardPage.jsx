@@ -1,17 +1,27 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import Navigation from '../components/Navigation';
+import { Navigation } from '../components/Navigation';
+import { connect } from 'react-redux';
 
 class DashboardPage extends Component {
   render() {
     return (
       <div>
         <Navigation />
-        <Link>Create New Portfolio</Link>
-        <Link to="/portfolios">View All Portfolio</Link>
+        <div>Welcome {this.props.user.username}</div>
+        <br />
+        <Link to="/portfolio/new">Create New Portfolio</Link>
+        <br />
+        <Link to="/user/portfolios">View All My Portfolios</Link>
       </div>
     );
   }
 }
 
-export default DashboardPage;
+const mapStateToProps = (AppState) => {
+  return {
+    user: AppState.auth.user,
+  };
+};
+
+export default connect(mapStateToProps)(DashboardPage);

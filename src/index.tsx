@@ -5,6 +5,8 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { rootReducer } from './reducers';
 
+//import the pageRouter
+
 //import provider and redux thunk
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';

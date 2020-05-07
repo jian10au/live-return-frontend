@@ -8,11 +8,14 @@ const _ProtectedRoute = ({ component: PageComponent, user, ...rest }) => {
     user,
     'Log Out User that determines the conditional rendering From ProtectedRouter'
   );
+
+  console.log(user, 'what is the user in protected route');
   return (
     <Route
       {...rest}
       render={(props) => {
         if (user) {
+          console.log('reach in here?');
           return <PageComponent user={user} {...props} />;
         } else {
           return <Redirect to="/authfailure" />;

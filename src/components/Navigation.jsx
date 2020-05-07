@@ -15,7 +15,7 @@ class _Navigation extends Component {
         <br />
         <Link to="/dashboard">Dashboard</Link>
         <br />
-        <Link to="/portfolios">Portfolios</Link>
+        <Link to="/user/portfolios">Portfolios</Link>
         <br />
         <Link to="/investments">Investments</Link>
       </div>

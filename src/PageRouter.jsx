@@ -5,6 +5,8 @@ import { SignUpPage } from './pages/SignUpPage';
 import InvestmentsPage from './pages/InvestmentsPage';
 import PortfoliosPage from './pages/PortfoliosPage';
 import DashboardPage from './pages/DashboardPage';
+import PortfolioNewPage from './pages/PortfolioNewPage';
+import { EditPortfolioPage } from './pages/EditPortfolioPage';
 
 import { ProtectedRoute } from './ProtectedRoute';
 
@@ -13,7 +15,18 @@ const PageRouter = () => {
   return (
     <Switch>
       <ProtectedRoute exact path="/investments" component={InvestmentsPage} />
-      <ProtectedRoute exact path="/portfolios" component={PortfoliosPage} />
+      <ProtectedRoute
+        exact
+        path="/user/portfolios"
+        component={PortfoliosPage}
+      />
+      <ProtectedRoute
+        exact
+        path="/user/portfolios/edit/:id"
+        component={EditPortfolioPage}
+      />
+
+      <ProtectedRoute path="/portfolio/new" component={PortfolioNewPage} />
       <ProtectedRoute path="/dashboard" component={DashboardPage} />
       <Route
         exact

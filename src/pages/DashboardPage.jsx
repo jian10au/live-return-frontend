@@ -10,9 +10,9 @@ class DashboardPage extends Component {
         <Navigation />
         <div>Welcome {this.props.user.username}</div>
         <br />
-        <Link>Create New Portfolio</Link>
+        <Link to="/portfolio/new">Create New Portfolio</Link>
         <br />
-        <Link to="/portfolios">View All Portfolio</Link>
+        <Link to="/user/portfolios">View All My Portfolios</Link>
       </div>
     );
   }

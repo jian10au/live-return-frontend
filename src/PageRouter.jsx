@@ -6,7 +6,7 @@ import InvestmentsPage from './pages/InvestmentsPage';
 import PortfoliosPage from './pages/PortfoliosPage';
 import DashboardPage from './pages/DashboardPage';
 import PortfolioNewPage from './pages/PortfolioNewPage';
-import { EditPortfolioPage } from './pages/EditPortfolioPage';
+import EditPortfolioPage from './pages/EditPortfolioPage';
 
 import { ProtectedRoute } from './ProtectedRoute';
 

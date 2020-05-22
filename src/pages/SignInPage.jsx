@@ -1,13 +1,22 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { httpRequest } from '../utils/axios';
 import { Link } from 'react-router-dom';
 import { signIn } from '../actions/authActions';
-import { timingSafeEqual } from 'crypto';
+import SignInForm from '../components/SignInForm';
+
+//form component in here does follow the controlled component pattern and please note that;
+//the clear function is achieved through the using the react.createRef
 
 export class _SignInPage extends Component {
+  constructor(props) {
+    super(props);
+    // this.inputEmailRef = React.createRef();
+    // this.inputPasswordRef = React.createRef();
+  }
+
   handleChange = (event) => {
-    this.setState({ [event.target.name]: event.target.value });
+    const { name, value } = event.target;
+    this.setState({ [name]: value });
   };
 
   handleSubmit = async (event) => {
@@ -19,6 +28,11 @@ export class _SignInPage extends Component {
     }
   };
 
+  handleClear = () => {
+    this.inputEmailRef.current.value = '';
+    this.inputPasswordRef.current.value = '';
+  };
+
   render() {
     console.log(this.state);
     return (
@@ -26,6 +40,7 @@ export class _SignInPage extends Component {
         <form onSubmit={this.handleSubmit}>
           <label htmlFor="email">Email</label>
           <input
+            ref={this.inputEmailRef}
             onChange={this.handleChange}
             type="text"
             name="email"
@@ -36,6 +51,7 @@ export class _SignInPage extends Component {
 
           <label htmlFor="password">Password</label>
           <input
+            ref={this.inputPasswordRef}
             onChange={this.handleChange}
             type="text"
             name="password"
@@ -45,11 +61,13 @@ export class _SignInPage extends Component {
           />
           <br />
           <button>Sign In</button>
+          <button>Clear</button>
         </form>
         <Link to="/signup">Need to sign Up?</Link>
         {this.props.error.id === 'signin_fail' ? (
           <div>{this.props.error.msg.msg}</div>
         ) : null}
+        <SignInForm />
       </div>
     );
   }

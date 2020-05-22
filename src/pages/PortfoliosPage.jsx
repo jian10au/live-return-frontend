@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Navigation } from '../components/Navigation';
 import InvestmentForm from '../components/InvestmentForm';
+import PortfolioInvestments from '../components/PortfolioInvestments';
 
 import { httpRequest } from '../utils/axios';
 import { connect } from 'react-redux';
@@ -12,6 +13,8 @@ class PortfoliosPage extends React.Component {
     portfolios: null,
     displayForm: false,
     displayInvestments: false,
+    dispPortIdCreate: null,
+    dispPortIdShow: null,
   };
 
   handleDelete = async (id) => {
@@ -33,16 +36,29 @@ class PortfoliosPage extends React.Component {
     }
   };
 
-  displayFormToggle = () => {
-    this.setState({
-      displayForm: !this.state.displayForm,
-    });
+  displayFormToggle = (id) => {
+    console.log(this.state.dispPortIdCreate, 'what is the displayId');
+    this.state.dispPortIdCreate
+      ? this.setState({
+          displayForm: !this.state.displayForm,
+          dispPortIdCreate: null,
+        })
+      : this.setState({
+          displayForm: !this.state.displayForm,
+          dispPortIdCreate: id,
+        });
   };
 
-  displayInvestmentsToggle = () => {
-    this.setState({
-      displayInvestments: !this.state.displayInvestments,
-    });
+  displayInvestmentsToggle = (id) => {
+    this.state.dispPortIdShow
+      ? this.setState({
+          displayInvestments: !this.state.displayInvestments,
+          dispPortIdShow: null,
+        })
+      : this.setState({
+          displayInvestments: !this.state.displayInvestments,
+          dispPortIdShow: id,
+        });
   };
 
   async componentDidMount() {
@@ -66,34 +82,41 @@ class PortfoliosPage extends React.Component {
           <h3>{portfolio.name}</h3>
           <p>{portfolio.description}</p>
           <Link to={`/user/portfolios/edit/${portfolio._id}`}>Edit</Link>
-          <button onClick={this.displayFormToggle}>
-            Add Investment {this.state.displayForm ? '(On)' : '(Off)'}{' '}
+          <button onClick={() => this.displayFormToggle(portfolio._id)}>
+            Add Investment{' '}
+            {this.state.dispPortIdCreate === portfolio._id &&
+            this.state.displayForm
+              ? '(On)'
+              : '(Off)'}{' '}
           </button>
-          <button onClick={this.displayInvestmentsToggle}>
+          <button onClick={() => this.displayInvestmentsToggle(portfolio._id)}>
             Show Investments included{' '}
-            {this.state.displayInvestments ? '(On)' : '(Off)'}{' '}
+            {this.state.dispPortIdShow === portfolio._id &&
+            this.state.displayInvestments
+              ? '(On)'
+              : '(Off)'}{' '}
           </button>
           <button onClick={() => this.handleDelete(portfolio._id)}>
             Delete
           </button>
           <hr />
-          {this.state.displayForm ? (
+          {this.state.dispPortIdCreate === portfolio._id &&
+          this.state.displayForm ? (
             <InvestmentForm
-              displayFormToggle={this.displayFormToggle}
+              displayFormToggle={() => this.displayFormToggle(portfolio._id)}
               portfolioId={portfolio._id}
             />
           ) : null}
-          {this.state.displayInvestments
-            ? portfolio.investments.map((investment) => {
-                return <div>{investment}</div>;
-              })
-            : null}
+          {this.state.displayInvestments ? (
+            <PortfolioInvestments portfolioId={portfolio._id} />
+          ) : null}
         </div>
       );
     });
   }
 
   render() {
+    console.log(this.state);
     return (
       <div>
         <Navigation />

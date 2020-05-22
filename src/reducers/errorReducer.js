@@ -9,6 +9,7 @@ const initialState = {
 };
 
 export const errorReducer = (state = initialState, action) => {
+  console.log('is errorReducer run?');
   switch (action.type) {
     case GET_ERRORS:
       return {

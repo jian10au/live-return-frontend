@@ -1,7 +1,7 @@
 import React from 'react';
 import { stat } from 'fs';
-import FormInput from '../FormInput';
-import FormTextArea from '../FormTextArea';
+import FormInput from '../elements/FormInput';
+import FormTextArea from '../elements/FormTextArea';
 
 function PortFolioForm({ onSubmit, onChange, state }) {
   return (

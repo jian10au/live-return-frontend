@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { httpRequest } from '../../src/utils/axios';
+import { httpRequest } from '../../utils/axios';
 import { connect } from 'react-redux';
 
 class FormContainerPortfolio extends Component {

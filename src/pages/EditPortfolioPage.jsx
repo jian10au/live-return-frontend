@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { Navigation } from '../components/Navigation';
 import { connect } from 'react-redux';
 
-import FormContainerPortfolio from '../components/FormContainerPortfolio';
-import PortfolioForm from '../components/forms/PortfolioForm';
+import FormContainerPortfolio from '../components/porfolios/FormContainerPortfolio';
+import PortfolioForm from '../components/porfolios/PortfolioForm';
 
 class EditPortfolioPage extends Component {
   state = {
@@ -30,12 +30,6 @@ class EditPortfolioPage extends Component {
     );
   }
 }
-
-const mapStateToProps = (AppState) => {
-  return {
-    authToken: AppState.auth.authToken,
-  };
-};
 
 export default EditPortfolioPage;
 

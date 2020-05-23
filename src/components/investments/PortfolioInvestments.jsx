@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { httpRequest } from '../utils/axios';
+import { httpRequest } from '../../utils/axios';
 import { connect } from 'react-redux';
+import InvestmentForm from '../investments/InvestmentForm';
+import Toggler from '../elements/Toggler';
 
 export class PortfolioInvestments extends Component {
   state = { investments: null };
@@ -32,16 +34,16 @@ export class PortfolioInvestments extends Component {
     console.log(this.state, 'log out the state');
     const investmentList = this.state.investments.map((investment) => {
       return (
-        <div key={investment._id}>
-          <form>
-            <label>Quote</label>
-            <input></input>
-            <label>Exchange</label>
-            <input></input>
-            <label>Entry Price</label>
-            <input></input>
-          </form>
-        </div>
+        <Toggler
+          defaultDisplay={true}
+          key={investment._id}
+          render={(toggle, on) => {
+            // notice, here I change the on to on value to be true; which is contrary to the default setting of
+            // a toggler
+
+            return on ? <InvestmentForm toggle={toggle} /> : null;
+          }}
+        />
       );
     });
     return investmentList;

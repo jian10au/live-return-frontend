@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { httpRequest } from '../utils/axios';
+import { httpRequest } from '../../utils/axios';
 import { connect } from 'react-redux';
+import FromInput, { FormInput } from '../elements/FormInput';
 
 export class InvestmentForm extends Component {
   state = {
@@ -9,6 +10,11 @@ export class InvestmentForm extends Component {
     entryPrice: null,
     exitPrice: null,
     portfolioId: this.props.portfolioId,
+  };
+
+  handleClose = (event) => {
+    event.preventDefault();
+    this.props.toggle(event);
   };
 
   handleChange = (event) => {
@@ -37,31 +43,37 @@ export class InvestmentForm extends Component {
     }
   };
   render() {
-    const { displayFormToggle, portfolioId } = this.props;
+    const { toggle, portfolioId } = this.props;
     return (
       <>
         <form onSubmit={this.handleSubmit}>
-          <input
+          <FormInput
             onChange={this.handleChange}
             type="text"
             name="quote"
             placeholder="quote"
+            displayName="Stock Quote"
           />
-          <input
+
+          <FormInput
             onChange={this.handleChange}
             type="text"
             name="exchange"
+            displayName="Exchange"
             placeholder="exchange"
           />
-          <input
+
+          <FormInput
             onChange={this.handleChange}
             type="text"
             name="entryPrice"
+            displayName="Entry Price"
             placeholder="entry price"
           />
-          <input type="text" placeholder={portfolioId} />
+          <FormInput type="text" placeholder={portfolioId} />
+
           <button onClick={this.handleSubmit}>Create</button>
-          <button onClick={displayFormToggle}>X</button>
+          <button onClick={this.handleClose}>X</button>
         </form>
         <hr />
       </>

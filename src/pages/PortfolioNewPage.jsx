@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Navigation } from '../components/Navigation';
-import FormContainerPortfolio from '../components/FormContainerPortfolio';
-import PortfolioForm from '../components/forms/PortfolioForm';
+import FormContainerPortfolio from '../components/porfolios/FormContainerPortfolio';
+import PortfolioForm from '../components/porfolios/PortfolioForm';
 import { fetchUserProfile } from '../actions/userActions';
 
 const pflCreationRoute = 'portfolios';

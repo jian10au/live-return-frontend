@@ -22,7 +22,6 @@ const initialState = {
 //
 
 export const authReducer = (state = initialState, action) => {
-  console.log('is authReducer run?');
   switch (action.type) {
     //case TOKEN_LOADED,
     // return {

@@ -31,17 +31,19 @@ export class PortfolioInvestments extends Component {
   }
 
   renderPortfolioInvestments = () => {
-    console.log(this.state, 'log out the state');
     const investmentList = this.state.investments.map((investment) => {
       return (
         <Toggler
           defaultDisplay={true}
           key={investment._id}
           render={(toggle, on) => {
-            // notice, here I change the on to on value to be true; which is contrary to the default setting of
-            // a toggler
-
-            return on ? <InvestmentForm toggle={toggle} /> : null;
+            return on ? (
+              <InvestmentForm
+                toggle={toggle}
+                investment={investment}
+                use={'update'}
+              />
+            ) : null;
           }}
         />
       );
@@ -50,7 +52,7 @@ export class PortfolioInvestments extends Component {
   };
 
   render() {
-    return this.state.investments && this.renderPortfolioInvestments();
+    return this.state.investments ? this.renderPortfolioInvestments() : null;
   }
 }
 

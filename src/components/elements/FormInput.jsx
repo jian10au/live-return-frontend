@@ -10,6 +10,7 @@ export class FormInput extends Component {
       required,
       onChange,
       displayName,
+      data,
     } = this.props;
     return (
       <div>
@@ -21,6 +22,7 @@ export class FormInput extends Component {
           placeholder={placeholder}
           required={required}
           onChange={onChange}
+          value={data}
         />
       </div>
     );

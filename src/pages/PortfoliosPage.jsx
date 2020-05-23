@@ -12,10 +12,6 @@ import Toggler from '../components/elements/Toggler';
 class PortfoliosPage extends React.Component {
   state = {
     portfolios: null,
-    displayForm: false,
-    displayInvestments: false,
-    dispPortIdCreate: null,
-    dispPortIdShow: null,
   };
 
   handleDelete = async (id) => {
@@ -37,31 +33,6 @@ class PortfoliosPage extends React.Component {
     }
   };
 
-  displayFormToggle = (id) => {
-    console.log(this.state.dispPortIdCreate, 'what is the displayId');
-    this.state.dispPortIdCreate
-      ? this.setState({
-          displayForm: !this.state.displayForm,
-          dispPortIdCreate: null,
-        })
-      : this.setState({
-          displayForm: !this.state.displayForm,
-          dispPortIdCreate: id,
-        });
-  };
-
-  displayInvestmentsToggle = (id) => {
-    this.state.dispPortIdShow
-      ? this.setState({
-          displayInvestments: !this.state.displayInvestments,
-          dispPortIdShow: null,
-        })
-      : this.setState({
-          displayInvestments: !this.state.displayInvestments,
-          dispPortIdShow: id,
-        });
-  };
-
   async componentDidMount() {
     const { authToken } = this.props;
     const config = {
@@ -71,7 +42,6 @@ class PortfoliosPage extends React.Component {
     };
     config.headers['x-auth-token'] = authToken;
     const response = await httpRequest.get('/user/portfolios', config);
-    console.log(response.data, 'nothing?');
     this.setState({ portfolios: response.data });
   }
 
@@ -90,7 +60,11 @@ class PortfoliosPage extends React.Component {
               <div>
                 <button onClick={toggle}>Add Investment</button>
                 {on ? (
-                  <InvestmentForm portfolioId={portfolio._id} toggle={toggle} />
+                  <InvestmentForm
+                    use="create"
+                    portfolioId={portfolio._id}
+                    toggle={toggle}
+                  />
                 ) : null}
               </div>
             )}
@@ -111,17 +85,17 @@ class PortfoliosPage extends React.Component {
           <button onClick={() => this.handleDelete(portfolio._id)}>
             Delete
           </button>
+          <hr />
         </div>
       );
     });
   }
 
   render() {
-    console.log(this.state);
     return (
       <div>
         <Navigation />
-        Protected Portfolio Page
+        <h1>Show All My Portfolios</h1>
         <br />
         {this.state.portfolios && this.renderList()}
       </div>

@@ -11,7 +11,6 @@ import EditPortfolioPage from './pages/EditPortfolioPage';
 import { ProtectedRoute } from './ProtectedRoute';
 
 const PageRouter = () => {
-  console.log('renderd from PageRouter');
   return (
     <Switch>
       <ProtectedRoute exact path="/investments" component={InvestmentsPage} />

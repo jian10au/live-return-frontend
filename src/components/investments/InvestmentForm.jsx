@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
 import { httpRequest } from '../../utils/axios';
 import { connect } from 'react-redux';
-import FromInput, { FormInput } from '../elements/FormInput';
+import FormInput from '../elements/FormInput';
 
 export class InvestmentForm extends Component {
   state = {
-    quote: '',
-    exchange: '',
-    entryPrice: null,
-    exitPrice: null,
-    portfolioId: this.props.portfolioId,
+    quote: this.props.investment ? this.props.investment.quote : '',
+    exchange: this.props.investment ? this.props.investment.exchange : '',
+    entryPrice: this.props.investment ? this.props.investment.exchange : '',
+    exitPrice: this.props.investment ? this.props.investment.exitPrice : '',
   };
 
   handleClose = (event) => {
@@ -17,11 +16,60 @@ export class InvestmentForm extends Component {
     this.props.toggle(event);
   };
 
+  handleUpdate = async (event) => {
+    const { _id } = this.props.investment;
+    event.preventDefault();
+
+    const { authToken } = this.props;
+    const config = {
+      headers: {
+        'Content-type': 'application/json',
+      },
+    };
+    config.headers['x-auth-token'] = authToken;
+
+    try {
+      await httpRequest.put(
+        `/investments/${_id}`,
+        { ...this.state, portfolioId: this.props.portfolioId },
+        config
+      );
+      console.log('investments successfully updated');
+    } catch (err) {
+      console.log(err);
+    }
+
+    console.log('Delete clicked');
+  };
+
+  handleDelete = async (event) => {
+    const { _id } = this.props.investment;
+    event.preventDefault();
+
+    const { authToken } = this.props;
+    const config = {
+      headers: {
+        'Content-type': 'application/json',
+      },
+    };
+    config.headers['x-auth-token'] = authToken;
+    console.log(authToken);
+    try {
+      await httpRequest.delete(`/investments/${_id}`, config);
+      console.log('investments successfully deleted');
+    } catch (err) {
+      console.log(err);
+    }
+
+    console.log('Delete clicked');
+  };
+
   handleChange = (event) => {
+    console.log(event.target);
     this.setState({ [event.target.name]: event.target.value });
   };
 
-  handleSubmit = async (event) => {
+  handleCreate = async (event) => {
     event.preventDefault();
 
     const { authToken } = this.props;
@@ -34,7 +82,7 @@ export class InvestmentForm extends Component {
     try {
       const response = await httpRequest.post(
         `/investments`,
-        this.state,
+        { ...this.state, portfolioId: this.props.portfolioId },
         config
       );
       console.log(response.data);
@@ -43,36 +91,45 @@ export class InvestmentForm extends Component {
     }
   };
   render() {
-    const { toggle, portfolioId } = this.props;
+    const { toggle, portfolioId, investment, use } = this.props;
+    const { quote, exchange, entryPrice, exitPrice } = this.state;
     return (
       <>
-        <form onSubmit={this.handleSubmit}>
+        <form>
           <FormInput
             onChange={this.handleChange}
             type="text"
             name="quote"
             placeholder="quote"
             displayName="Stock Quote"
+            data={quote}
           />
-
           <FormInput
             onChange={this.handleChange}
             type="text"
             name="exchange"
             displayName="Exchange"
             placeholder="exchange"
+            data={exchange}
           />
-
           <FormInput
             onChange={this.handleChange}
             type="text"
             name="entryPrice"
             displayName="Entry Price"
             placeholder="entry price"
+            data={entryPrice}
           />
           <FormInput type="text" placeholder={portfolioId} />
-
-          <button onClick={this.handleSubmit}>Create</button>
+          {use === 'create' ? (
+            <button onClick={this.handleCreate}>Create</button>
+          ) : null}
+          {use === 'update' ? (
+            <button onClick={this.handleUpdate}>Update</button>
+          ) : null}
+          {use === 'update' ? (
+            <button onClick={this.handleDelete}>Delete</button>
+          ) : null}
           <button onClick={this.handleClose}>X</button>
         </form>
         <hr />

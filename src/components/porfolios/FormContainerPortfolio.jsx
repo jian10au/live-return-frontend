@@ -16,7 +16,7 @@ class FormContainerPortfolio extends Component {
       },
     };
     config.headers['x-auth-token'] = authToken;
-    if (this.props.match.params) {
+    if (this.props.match.params.id) {
       const response = await httpRequest.get(
         `/portfolios/${this.props.match.params.id}`,
         config
@@ -32,7 +32,6 @@ class FormContainerPortfolio extends Component {
   onChange = (event) => {
     const { name, value } = event.target;
     event.preventDefault();
-    console.log(event.target);
     this.setState({ [name]: value });
   };
 
@@ -46,7 +45,7 @@ class FormContainerPortfolio extends Component {
     };
     config.headers['x-auth-token'] = authToken;
 
-    if (this.props.match.params) {
+    if (this.props.match.params.id) {
       console.log('you are going to update because the param exists');
       try {
         const response = await httpRequest.put(

@@ -11,6 +11,8 @@ export class FormInput extends Component {
       onChange,
       displayName,
       data,
+      onFocus,
+      onClick,
     } = this.props;
     return (
       <div>
@@ -23,6 +25,8 @@ export class FormInput extends Component {
           required={required}
           onChange={onChange}
           value={data}
+          onFocus={onFocus}
+          onClick={onClick}
         />
       </div>
     );

@@ -60,11 +60,13 @@ class PortfoliosPage extends React.Component {
               <div>
                 <button onClick={toggle}>Add Investment</button>
                 {on ? (
-                  <InvestmentForm
-                    use="create"
-                    portfolioId={portfolio._id}
-                    toggle={toggle}
-                  />
+                  <>
+                    <InvestmentForm
+                      use="create"
+                      portfolioId={portfolio._id}
+                      toggle={toggle}
+                    />
+                  </>
                 ) : null}
               </div>
             )}

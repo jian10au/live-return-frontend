@@ -6,12 +6,11 @@ import InvestmentsPage from './pages/InvestmentsPage';
 import PortfoliosPage from './pages/PortfoliosPage';
 import DashboardPage from './pages/DashboardPage';
 import PortfolioNewPage from './pages/PortfolioNewPage';
-import { EditPortfolioPage } from './pages/EditPortfolioPage';
+import EditPortfolioPage from './pages/EditPortfolioPage';
 
 import { ProtectedRoute } from './ProtectedRoute';
 
 const PageRouter = () => {
-  console.log('renderd from PageRouter');
   return (
     <Switch>
       <ProtectedRoute exact path="/investments" component={InvestmentsPage} />

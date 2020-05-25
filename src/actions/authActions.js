@@ -46,7 +46,6 @@ export const loadUser = () => async (dispatch, getState) => {
     type: USER_LOADING,
   });
   dispatch({ type: AUTHTOKEN_LOADED });
-  console.log(tokenConfig(getState), 'what is return by tokenConfig');
 
   try {
     const response = await httpRequest.get(

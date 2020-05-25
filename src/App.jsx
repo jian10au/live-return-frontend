@@ -6,22 +6,15 @@ import { loadUser } from './actions/authActions';
 
 class App extends React.Component {
   componentDidMount() {
+    console.log(process.env.REACT_APP_API_KEY);
     this.props.loadUser();
-    console.log('load User gets called at all?');
   }
   render() {
-    console.log('rendered from App component');
-    // if (this.props.isloadingUser === false) {
-    //   return <PageRouter />;
-    // } else {
-    //   return null;
-    // }
     return this.props.isloadingUser === false ? <PageRouter /> : null;
   }
 }
 
 const mapStateToProps = (AppState) => {
-  console.log(AppState, 'AppState from App Component');
   return { isloadingUser: AppState.auth.isLoading };
 };
 

@@ -8,6 +8,8 @@ import { httpRequest } from '../utils/axios';
 import { connect } from 'react-redux';
 import { render } from '@testing-library/react';
 import Toggler from '../components/elements/Toggler';
+import RealTimePriceFetcher from '../components/elements/RealTimePriceFetcher';
+import ReturnCalculator from '../components/elements/ReturnCalculator';
 
 class PortfoliosPage extends React.Component {
   state = {
@@ -65,7 +67,9 @@ class PortfoliosPage extends React.Component {
                       use="create"
                       portfolioId={portfolio._id}
                       toggle={toggle}
-                    />
+                    >
+                      <RealTimePriceFetcher />
+                    </InvestmentForm>
                   </>
                 ) : null}
               </div>

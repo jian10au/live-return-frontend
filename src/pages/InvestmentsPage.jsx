@@ -34,8 +34,9 @@ export class InvestmentsPage extends Component {
       <div key={investment._id}>
         <h3>{investment.name}</h3>
         <p>{investment.description}</p>
-        <p>{investment.entrePrice}</p>
+        <p>{investment.entryPrice}</p>
         <p>{investment.exitPrice}</p>
+        <div>Where am I</div>
         <hr />
       </div>
     ));

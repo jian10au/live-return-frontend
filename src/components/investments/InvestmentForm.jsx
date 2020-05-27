@@ -5,17 +5,14 @@ import FormInput from '../elements/FormInput';
 import Toggler from '../elements/Toggler';
 import AutoCompleteBox from '../elements/AutoCompleteBox';
 
-const ReturnTimeSeriesIntraDay = (keyword, api_key) => {
-  return `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${keyword}&interval=5min&apikey=${api_key}`;
-};
-
 export class InvestmentForm extends Component {
   state = {
     quote: this.props.investment ? this.props.investment.quote : '',
     exchange: this.props.investment ? this.props.investment.exchange : '',
-    entryPrice: this.props.investment ? this.props.investment.exchange : '',
+    entryPrice: this.props.investment ? this.props.investment.entryPrice : '',
     exitPrice: this.props.investment ? this.props.investment.exitPrice : '',
-    realTimePrice: '',
+
+    quantity: this.props.investment ? this.props.investment.quantity : '',
   };
 
   handleClose = (event) => {
@@ -28,31 +25,6 @@ export class InvestmentForm extends Component {
     const quote = quoteFullStr.split(' ')[0];
 
     this.setState({ quote: quote });
-  };
-
-  fetchRealTimePrice = async (event) => {
-    event.preventDefault();
-    console.log('fetch real time clicked');
-    if (this.state.quote) {
-      const endPoint = ReturnTimeSeriesIntraDay(
-        this.state.quote,
-        process.env.REACT_APP_API_KEY
-      );
-
-      try {
-        const { data } = await httpRequest.get(endPoint);
-
-        const timePoint = Object.keys(data['Time Series (5min)'])[0];
-
-        const closePrice = data['Time Series (5min)'][timePoint]['4. close'];
-
-        this.setState({
-          realTimePrice: closePrice,
-        });
-      } catch (err) {
-        console.log(err);
-      }
-    }
   };
 
   handleUpdate = async (event) => {
@@ -104,7 +76,8 @@ export class InvestmentForm extends Component {
   };
 
   handleChange = (event) => {
-    console.log(event.target);
+    event.preventDefault();
+    console.log(event.target.name);
     this.setState({ [event.target.name]: event.target.value });
   };
 
@@ -131,7 +104,7 @@ export class InvestmentForm extends Component {
   };
   render() {
     const { toggle, portfolioId, investment, use } = this.props;
-    const { quote, exchange, entryPrice, exitPrice } = this.state;
+    const { quote, exchange, entryPrice, exitPrice, quantity } = this.state;
     return (
       <>
         <form>
@@ -175,8 +148,24 @@ export class InvestmentForm extends Component {
             placeholder="entry price"
             data={entryPrice}
           />
-          <div>Current Price: {this.state.realTimePrice}</div>
-          <FormInput type="text" placeholder={portfolioId} />
+
+          <FormInput
+            onChange={this.handleChange}
+            type="text"
+            name="quantity"
+            displayName="number of shares"
+            placeholder="number of shares"
+            data={quantity}
+          />
+
+          {React.Children.map(this.props.children, (child) => {
+            return React.cloneElement(child, {
+              quote,
+              entryPrice,
+              quantity,
+            });
+          })}
+
           {use === 'create' ? (
             <>
               <button onClick={this.handleCreate}>Create</button>

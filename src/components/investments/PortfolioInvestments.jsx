@@ -3,9 +3,12 @@ import { httpRequest } from '../../utils/axios';
 import { connect } from 'react-redux';
 import InvestmentForm from '../investments/InvestmentForm';
 import Toggler from '../elements/Toggler';
+import ReturnCalculator from '../elements/ReturnCalculator';
+import RealTimePriceFetcher from '../elements/RealTimePriceFetcher';
+import InvestmentReturnCollector from '../elements/InvestmentReturnCollector';
 
 export class PortfolioInvestments extends Component {
-  state = { investments: null };
+  state = { investments: [], investmentProfits: {}, totalReturn: '' };
 
   async componentDidMount() {
     const { authToken } = this.props;
@@ -30,6 +33,29 @@ export class PortfolioInvestments extends Component {
     }
   }
 
+  calculateTotalReturn = () => {
+    const { investmentProfits } = this.state;
+    let sum = 0;
+    for (const key in investmentProfits) {
+      sum = sum + investmentProfits[key];
+    }
+    return sum;
+  };
+
+  updatePortfolioTotalReturn = (investmentId, amount) => {
+    const updatedObject = this.state.investmentProfits;
+    updatedObject[investmentId] = amount;
+    this.setState({
+      investmentProfits: updatedObject,
+    });
+    // I might want to add logic in here to make sure that investmentProfits is updated property before the total
+    // return calculation can be run.
+    const totalReturn = this.calculateTotalReturn();
+    this.setState({
+      totalReturn,
+    });
+  };
+
   renderPortfolioInvestments = () => {
     const investmentList = this.state.investments.map((investment) => {
       return (
@@ -38,11 +64,24 @@ export class PortfolioInvestments extends Component {
           key={investment._id}
           render={(toggle, on) => {
             return on ? (
-              <InvestmentForm
-                toggle={toggle}
-                investment={investment}
-                use={'update'}
-              />
+              <div>
+                <InvestmentForm
+                  toggle={toggle}
+                  investment={investment}
+                  use={'update'}
+                >
+                  <RealTimePriceFetcher>
+                    <ReturnCalculator>
+                      <InvestmentReturnCollector
+                        investmentId={investment._id}
+                        updatePortfolioTotalReturn={
+                          this.updatePortfolioTotalReturn
+                        }
+                      />
+                    </ReturnCalculator>
+                  </RealTimePriceFetcher>
+                </InvestmentForm>
+              </div>
             ) : null;
           }}
         />
@@ -52,7 +91,14 @@ export class PortfolioInvestments extends Component {
   };
 
   render() {
-    return this.state.investments ? this.renderPortfolioInvestments() : null;
+    return (
+      <>
+        <div>Total Return : {this.state.totalReturn}</div>
+        <div>
+          {this.state.investments ? this.renderPortfolioInvestments() : null}
+        </div>
+      </>
+    );
   }
 }
 

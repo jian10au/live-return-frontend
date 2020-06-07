@@ -41,15 +41,19 @@ export class RealTimePriceFetcher extends Component {
     return (
       <div>
         <p>Real Time Price: {realTimePrice}</p>
-        <button onClick={this.fetchRealTimePrice}>
-          Get the real time price
-        </button>
+        {this.props.isActive ? (
+          <button onClick={this.fetchRealTimePrice}>
+            Get the real time price
+          </button>
+        ) : null}
 
         {React.Children.map(this.props.children, (child) => {
           return React.cloneElement(child, {
             realTimePrice,
             entryPrice: this.props.entryPrice,
             quantity: this.props.quantity,
+            isActive: this.props.isActive,
+            exitPrice: this.props.exitPrice,
           });
         })}
       </div>

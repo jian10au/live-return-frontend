@@ -1,0 +1,17 @@
+.page {
+  background-color: white;
+  height: 100vh;
+}
+
+.portfolioContainer {
+  border-radius: 5px;
+  border: 2px solid grey;
+  padding: 1em;
+  width: 70%;
+  margin: 1em auto;
+  background-color: #f6f6f6;
+}
+
+.page button {
+  background-color: bisque;
+}

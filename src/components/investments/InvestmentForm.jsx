@@ -4,14 +4,15 @@ import { connect } from 'react-redux';
 import FormInput from '../elements/FormInput';
 import Toggler from '../elements/Toggler';
 import AutoCompleteBox from '../elements/AutoCompleteBox';
+import styles from './InvestmentForm.module.css';
 
 export class InvestmentForm extends Component {
   state = {
     quote: this.props.investment ? this.props.investment.quote : '',
     exchange: this.props.investment ? this.props.investment.exchange : '',
     entryPrice: this.props.investment ? this.props.investment.entryPrice : '',
+    isActive: this.props.investment ? this.props.investment.isActive : true,
     exitPrice: this.props.investment ? this.props.investment.exitPrice : '',
-
     quantity: this.props.investment ? this.props.investment.quantity : '',
   };
 
@@ -56,7 +57,7 @@ export class InvestmentForm extends Component {
   handleDelete = async (event) => {
     const { _id } = this.props.investment;
     event.preventDefault();
-
+    this.props.deletePortfolioDisplayed(event, _id);
     const { authToken } = this.props;
     const config = {
       headers: {
@@ -75,6 +76,18 @@ export class InvestmentForm extends Component {
     console.log('Delete clicked');
   };
 
+  handleCheckBox = (event) => {
+    event.persist();
+    // here, I have a very weird problem with the event;
+    // if i do not add event.persist; it seems to me;
+    // the event will be lost and becomes the null
+    // therefore the below line will not work
+    // I don't know why this is the case in this case
+    this.setState((prevState) => {
+      return { [event.target.name]: !prevState.isActive };
+    });
+  };
+
   handleChange = (event) => {
     event.preventDefault();
     console.log(event.target.name);
@@ -91,6 +104,7 @@ export class InvestmentForm extends Component {
       },
     };
     config.headers['x-auth-token'] = authToken;
+    console.log({ ...this.state, portfolioId: this.props.portfolioId });
     try {
       const response = await httpRequest.post(
         `/investments`,
@@ -104,9 +118,16 @@ export class InvestmentForm extends Component {
   };
   render() {
     const { toggle, portfolioId, investment, use } = this.props;
-    const { quote, exchange, entryPrice, exitPrice, quantity } = this.state;
+    const {
+      quote,
+      exchange,
+      entryPrice,
+      exitPrice,
+      quantity,
+      isActive,
+    } = this.state;
     return (
-      <>
+      <div className={styles.container}>
         <form>
           <Toggler
             defaultDisplay={false}
@@ -140,14 +161,6 @@ export class InvestmentForm extends Component {
             placeholder="exchange"
             data={exchange}
           />
-          <FormInput
-            onChange={this.handleChange}
-            type="text"
-            name="entryPrice"
-            displayName="Entry Price"
-            placeholder="entry price"
-            data={entryPrice}
-          />
 
           <FormInput
             onChange={this.handleChange}
@@ -158,11 +171,40 @@ export class InvestmentForm extends Component {
             data={quantity}
           />
 
+          <FormInput
+            onChange={this.handleChange}
+            type="text"
+            name="entryPrice"
+            displayName="Entry Price"
+            placeholder="entry price"
+            data={entryPrice}
+          />
+
+          <FormInput
+            onChange={this.handleCheckBox}
+            type="checkbox"
+            name="isActive"
+            displayName="Active / InActive"
+            data={isActive}
+          />
+
+          {this.state.isActive ? null : (
+            <FormInput
+              onChange={this.handleChange}
+              type="text"
+              name="exitPrice"
+              displayName="Exit Price"
+              placeholder="Exit price"
+              data={exitPrice}
+            />
+          )}
           {React.Children.map(this.props.children, (child) => {
             return React.cloneElement(child, {
               quote,
               entryPrice,
               quantity,
+              isActive,
+              exitPrice,
             });
           })}
 
@@ -180,7 +222,7 @@ export class InvestmentForm extends Component {
           ) : null}
           <button onClick={this.handleClose}>X</button>
         </form>
-      </>
+      </div>
     );
   }
 }

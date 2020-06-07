@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { signOut } from '../actions/authActions';
-
+import styles from './Navigation.module.css';
 class _Navigation extends Component {
   handleClick = () => {
     this.props.signOut();
@@ -10,14 +10,13 @@ class _Navigation extends Component {
 
   render() {
     return (
-      <div>
-        <button onClick={this.handleClick}>Sign Out</button>
-        <br />
-        <Link to="/dashboard">Dashboard</Link>
-        <br />
-        <Link to="/user/portfolios">Portfolios</Link>
-        <br />
-        <Link to="/investments">Investments</Link>
+      <div className={styles.container}>
+        <div className={styles.itemsContainer}>
+          <Link to="/dashboard">Dashboard</Link>
+          <Link to="/user/portfolios">Portfolios</Link>
+          <Link to="/investments">Investments</Link>
+          <button onClick={this.handleClick}>　> Sign Out </button>
+        </div>
       </div>
     );
   }

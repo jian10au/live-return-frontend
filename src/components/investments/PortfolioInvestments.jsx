@@ -6,6 +6,7 @@ import Toggler from '../elements/Toggler';
 import ReturnCalculator from '../elements/ReturnCalculator';
 import RealTimePriceFetcher from '../elements/RealTimePriceFetcher';
 import InvestmentReturnCollector from '../elements/InvestmentReturnCollector';
+import styles from './PortfolioInvestment.module.css';
 
 export class PortfolioInvestments extends Component {
   state = { investments: [], investmentProfits: {}, totalReturn: '' };
@@ -33,10 +34,20 @@ export class PortfolioInvestments extends Component {
     }
   }
 
+  deletePortfolioDisplayed = (event, id) => {
+    event.preventDefault();
+    console.log('state is reset?', id);
+    const updatedInvestments = this.state.investments.filter((investment) => {
+      return investment._id !== id;
+    });
+    console.log('what is updatedInvestments ?', updatedInvestments);
+    this.setState({ investments: updatedInvestments });
+  };
+
   calculateTotalReturn = () => {
     const { investmentProfits } = this.state;
     let sum = 0;
-    for (const key in investmentProfits) {
+    for (let key in investmentProfits) {
       sum = sum + investmentProfits[key];
     }
     return sum;
@@ -69,6 +80,7 @@ export class PortfolioInvestments extends Component {
                   toggle={toggle}
                   investment={investment}
                   use={'update'}
+                  deletePortfolioDisplayed={this.deletePortfolioDisplayed}
                 >
                   <RealTimePriceFetcher>
                     <ReturnCalculator>
@@ -94,7 +106,7 @@ export class PortfolioInvestments extends Component {
     return (
       <>
         <div>Total Return : {this.state.totalReturn}</div>
-        <div>
+        <div className={styles.wrapper}>
           {this.state.investments ? this.renderPortfolioInvestments() : null}
         </div>
       </>

@@ -10,6 +10,7 @@ import { render } from '@testing-library/react';
 import Toggler from '../components/elements/Toggler';
 import RealTimePriceFetcher from '../components/elements/RealTimePriceFetcher';
 import ReturnCalculator from '../components/elements/ReturnCalculator';
+import styles from './PortfoliosPage.module.css';
 
 class PortfoliosPage extends React.Component {
   state = {
@@ -51,11 +52,13 @@ class PortfoliosPage extends React.Component {
     const { portfolios } = this.state;
     return portfolios.map((portfolio) => {
       return (
-        <div key={portfolio._id}>
+        <div className={styles.portfolioContainer} key={portfolio._id}>
           <h3>{portfolio.name}</h3>
           <p>{portfolio.description}</p>
           <Link to={`/user/portfolios/edit/${portfolio._id}`}>Edit</Link>
-
+          <button onClick={() => this.handleDelete(portfolio._id)}>
+            Delete
+          </button>
           <Toggler
             defaultDisplay={false}
             render={(toggle, on) => (
@@ -87,11 +90,6 @@ class PortfoliosPage extends React.Component {
               </div>
             )}
           />
-
-          <button onClick={() => this.handleDelete(portfolio._id)}>
-            Delete
-          </button>
-          <hr />
         </div>
       );
     });
@@ -99,10 +97,9 @@ class PortfoliosPage extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className={styles.page}>
         <Navigation />
         <h1>Show All My Portfolios</h1>
-        <br />
         {this.state.portfolios && this.renderList()}
       </div>
     );

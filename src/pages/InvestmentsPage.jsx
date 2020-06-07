@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { httpRequest } from '../utils/axios';
 import { Navigation } from '../components/Navigation';
 import { connect } from 'react-redux';
+import styles from './InvestmentsPage.module.css';
 
 export class InvestmentsPage extends Component {
   state = {
@@ -31,13 +32,11 @@ export class InvestmentsPage extends Component {
   renderInvestmentsList = () => {
     const { investments } = this.state;
     const investmentList = investments.map((investment) => (
-      <div key={investment._id}>
+      <div className={styles.investmentContainer} key={investment._id}>
         <h3>{investment.name}</h3>
         <p>{investment.description}</p>
         <p>{investment.entryPrice}</p>
         <p>{investment.exitPrice}</p>
-        <div>Where am I</div>
-        <hr />
       </div>
     ));
     return investmentList;
@@ -46,7 +45,7 @@ export class InvestmentsPage extends Component {
   render() {
     const { investments } = this.state;
     return (
-      <div>
+      <div className={styles.page}>
         <Navigation />
         <h2>Show All My Investments</h2>
         {investments ? this.renderInvestmentsList() : <div>Loading</div>}

@@ -1,0 +1,37 @@
+.page {
+  color: #85858d;
+  background-color: white;
+  height: 100vh;
+}
+
+.page h1 {
+  font-size: 3.5rem;
+  margin: auto auto;
+  text-align: center;
+}
+
+.btnContainer {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.linkBtn {
+  background-color: #48bfea9d;
+  font-weight: 600;
+  color: white;
+  padding: 4em 2em;
+  text-align: center;
+  font-size: 2.5rem;
+  text-decoration: none;
+  min-width: 30%;
+  border-radius: 3px;
+}
+
+.linkBtnAltColor {
+  background-color: #85858d;
+}
+
+.linkBtn:hover {
+  border-top: 1px solid #48bfea9d;
+  background-color: #d8a85a;
+}

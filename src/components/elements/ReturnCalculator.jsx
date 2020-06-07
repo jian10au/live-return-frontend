@@ -5,8 +5,26 @@ export class ReturnCalculator extends Component {
     profit: '',
   };
 
+  componentDidMount() {
+    const {
+      entryPrice,
+      quantity,
+      realTimePrice,
+      isActive,
+      exitPrice,
+    } = this.props;
+    if (!isActive) {
+      const profitAmount = parseFloat(
+        (parseFloat(exitPrice) - parseFloat(entryPrice)) *
+          parseInt(quantity).toFixed(2)
+      );
+
+      this.setState({ profit: profitAmount });
+    }
+  }
+
   async componentDidUpdate(prevProps) {
-    const { entryPrice, quantity, realTimePrice } = this.props;
+    const { entryPrice, quantity, realTimePrice, isActive } = this.props;
     if (this.props.realTimePrice !== prevProps.realTimePrice) {
       const { realTimePrice } = this.props;
 

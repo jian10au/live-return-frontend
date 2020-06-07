@@ -1,0 +1,42 @@
+.formContainer {
+  border-radius: 2px;
+  margin: auto auto;
+  width: 50%;
+  margin-bottom: 1em;
+}
+
+.description {
+  border: 1px solid black;
+}
+
+.formContainer div {
+  margin-top: 1em;
+  margin-bottom: 1em;
+  padding: 1em;
+  border: 1.5px solid #85858d;
+  border-radius: 3px;
+  background-color: #f6f6f6;
+}
+
+.formContainer input {
+  border-radius: 2px;
+  margin-left: 25%;
+  border: none;
+  display: inline-block;
+}
+
+.formContainer textarea {
+  margin: 1em auto;
+  border: none;
+  display: block;
+  width: 80%;
+  height: 180px;
+}
+
+.formContainer button {
+  border-radius: 3px;
+  color: white;
+  background-color: #d8a85a;
+  padding: 0.5em;
+  font: inherit;
+}

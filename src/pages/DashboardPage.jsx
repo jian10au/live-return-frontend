@@ -2,17 +2,25 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Navigation } from '../components/Navigation';
 import { connect } from 'react-redux';
-
+import styles from './DashboardPage.module.css';
 class DashboardPage extends Component {
   render() {
     return (
-      <div>
+      <div className={styles.page}>
         <Navigation />
-        <div>Welcome {this.props.user.username}</div>
+        <h1>Welcome {this.props.user.username}</h1>
         <br />
-        <Link to="/portfolio/new">Create New Portfolio</Link>
-        <br />
-        <Link to="/user/portfolios">View All My Portfolios</Link>
+        <div className={styles.btnContainer}>
+          <Link className={styles.linkBtn} to="/portfolio/new">
+            Create New Portfolio
+          </Link>
+          <Link
+            className={`${styles.linkBtn} ${styles.linkBtnAltColor}`}
+            to="/user/portfolios"
+          >
+            View All My Portfolios
+          </Link>
+        </div>
       </div>
     );
   }

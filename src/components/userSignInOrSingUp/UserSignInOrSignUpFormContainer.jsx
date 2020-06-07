@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { signIn, register } from '../../actions/authActions';
 import { Link } from 'react-router-dom';
+import styles from '../userSignInOrSingUp/UserSignInOrSignUpFormContainer.module.css';
 
 class UserSignInOrSignUpFormContainer extends Component {
   state = {
@@ -36,7 +37,7 @@ class UserSignInOrSignUpFormContainer extends Component {
 
   render() {
     return (
-      <div>
+      <div className={styles.Container}>
         {this.props.render(
           this.handleChange,
           this.handleSignIn,
@@ -44,7 +45,7 @@ class UserSignInOrSignUpFormContainer extends Component {
         )}
         {this.props.error.id === 'signin_fail' ||
         this.props.error.id === 'register_fail' ? (
-          <div>{this.props.error.msg.msg}</div>
+          <div className={styles.message}>{this.props.error.msg.msg}</div>
         ) : null}
       </div>
     );

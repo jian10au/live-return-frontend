@@ -3,7 +3,7 @@ import { Navigation } from '../components/Navigation';
 import FormContainerPortfolio from '../components/porfolios/FormContainerPortfolio';
 import PortfolioForm from '../components/porfolios/PortfolioForm';
 import { fetchUserProfile } from '../actions/userActions';
-
+import styles from './PortfolioNewPage.module.css';
 const pflCreationRoute = 'portfolios';
 
 // ideally, I can create a customisable implementation for the handle submit when I compose the
@@ -23,8 +23,9 @@ export class PortfolioNewPage extends Component {
 
   render() {
     return (
-      <div>
+      <div className={styles.page}>
         <Navigation />
+        <h2>Provide details to create a new portfolio in here</h2>
         <FormContainerPortfolio
           {...this.props}
           submitRoute={pflCreationRoute}
@@ -37,8 +38,6 @@ export class PortfolioNewPage extends Component {
             />
           )}
         />
-
-        <h2>Provide details to create a new portfolio in here</h2>
       </div>
     );
   }

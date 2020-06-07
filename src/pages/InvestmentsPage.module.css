@@ -1,0 +1,15 @@
+.page {
+}
+
+.page h2 {
+  margin-left: 15%;
+}
+
+.investmentContainer {
+  border: 1px solid black;
+  background-color: #f6f6f6;
+  padding: 2em;
+  border-radius: 3px;
+  width: 70%;
+  margin: 0 auto 1em;
+}

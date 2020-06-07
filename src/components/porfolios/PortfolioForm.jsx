@@ -2,10 +2,10 @@ import React from 'react';
 import { stat } from 'fs';
 import FormInput from '../elements/FormInput';
 import FormTextArea from '../elements/FormTextArea';
-
+import styles from './PortfolioForm.module.css';
 function PortFolioForm({ onSubmit, onChange, state }) {
   return (
-    <form onSubmit={onSubmit}>
+    <form className={styles.formContainer} onSubmit={onSubmit}>
       <FormInput
         onChange={onChange}
         type="text"
@@ -18,6 +18,7 @@ function PortFolioForm({ onSubmit, onChange, state }) {
       />
 
       <FormTextArea
+        className={styles.description}
         onChange={onChange}
         type="text"
         name="description"

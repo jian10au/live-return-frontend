@@ -117,7 +117,8 @@ export class InvestmentForm extends Component {
     }
   };
   render() {
-    const { toggle, portfolioId, investment, use } = this.props;
+    const { toggle, portfolioId, investmentId, use } = this.props;
+    console.log(portfolioId, 'my id is');
     const {
       quote,
       exchange,
@@ -181,10 +182,12 @@ export class InvestmentForm extends Component {
           />
 
           <FormInput
+            className={styles.toggle}
             onChange={this.handleCheckBox}
-            type="checkbox"
-            name="isActive"
-            displayName="Active / InActive"
+            type="toggle"
+            id={investmentId}
+            name={'isActive'}
+            displayName=""
             data={isActive}
           />
 
@@ -198,16 +201,6 @@ export class InvestmentForm extends Component {
               data={exitPrice}
             />
           )}
-          {React.Children.map(this.props.children, (child) => {
-            return React.cloneElement(child, {
-              quote,
-              entryPrice,
-              quantity,
-              isActive,
-              exitPrice,
-            });
-          })}
-
           {use === 'create' ? (
             <>
               <button onClick={this.handleCreate}>Create</button>
@@ -220,6 +213,16 @@ export class InvestmentForm extends Component {
           {use === 'update' ? (
             <button onClick={this.handleDelete}>Delete</button>
           ) : null}
+          {React.Children.map(this.props.children, (child) => {
+            return React.cloneElement(child, {
+              quote,
+              entryPrice,
+              quantity,
+              isActive,
+              exitPrice,
+            });
+          })}
+
           <button onClick={this.handleClose}>X</button>
         </form>
       </div>

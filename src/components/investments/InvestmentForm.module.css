@@ -20,3 +20,63 @@
   border: none;
   border-radius: 2px;
 }
+
+/* the whole toggle container */
+
+.toggle {
+  border: 1px solid grey;
+  height: 28px;
+  width: 100px;
+  background: rgba(189, 182, 182, 0.534);
+  border-radius: 2px;
+  position: relative;
+}
+/* set the shape of the whole contaner */
+
+.toggle::before,
+.toggle::after {
+  position: absolute;
+  font-size: 12px;
+  /* below two style is just for setting the before and after container to the right place */
+  top: 50%;
+  transform: translateY(-50%);
+  font-weight: bold;
+}
+
+.toggle::before {
+  content: 'HOLD';
+  color: green;
+  left: 12px;
+}
+.toggle::after {
+  content: 'SOLD';
+  color: red;
+  right: 12px;
+}
+
+/* below is to hide the input box, the control will be achieved through control the label with the same id */
+.toggle input {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  outline: none;
+  z-index: 2;
+  display: none;
+}
+
+.toggle label {
+  position: absolute;
+  height: 95%;
+  width: 40%;
+  background: linear-gradient(to bottom, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+  border-radius: 2px;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 5%;
+  transition: 0.2s linear;
+  z-index: 1;
+}
+
+.toggle input:checked + label {
+  left: 55%;
+}

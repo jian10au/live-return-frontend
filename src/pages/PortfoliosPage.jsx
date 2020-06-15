@@ -54,42 +54,59 @@ class PortfoliosPage extends React.Component {
       return (
         <div className={styles.portfolioContainer} key={portfolio._id}>
           <h3>{portfolio.name}</h3>
+          <div className={styles.btnPortfolio}>
+            <Link
+              className={styles.editBtn}
+              to={`/user/portfolios/edit/${portfolio._id}`}
+            >
+              Edit
+            </Link>
+            <button
+              className={styles.dltBtn}
+              onClick={() => this.handleDelete(portfolio._id)}
+            >
+              Delete
+            </button>
+          </div>
           <p>{portfolio.description}</p>
-          <Link to={`/user/portfolios/edit/${portfolio._id}`}>Edit</Link>
-          <button onClick={() => this.handleDelete(portfolio._id)}>
-            Delete
-          </button>
-          <Toggler
-            defaultDisplay={false}
-            render={(toggle, on) => (
-              <div>
-                <button onClick={toggle}>Add Investment</button>
-                {on ? (
-                  <>
-                    <InvestmentForm
-                      use="create"
-                      portfolioId={portfolio._id}
-                      toggle={toggle}
-                    >
-                      <RealTimePriceFetcher />
-                    </InvestmentForm>
-                  </>
-                ) : null}
-              </div>
-            )}
-          />
+          <div className={styles.investmentTogglerWrapper}>
+            <Toggler
+              defaultDisplay={false}
+              render={(toggle, on) => (
+                <div>
+                  <button className={styles.newBtn} onClick={toggle}>
+                    New Investment
+                  </button>
+                  {on ? (
+                    <>
+                      <InvestmentForm
+                        use="create"
+                        investmentId={'defaultID0001'}
+                        //a better approach is to set the defaultID using default Props
+                        toggle={toggle}
+                      >
+                        <RealTimePriceFetcher />
+                      </InvestmentForm>
+                    </>
+                  ) : null}
+                </div>
+              )}
+            />
 
-          <Toggler
-            defaultDisplay={false}
-            render={(toggle, on) => (
-              <div>
-                <button onClick={toggle}>Show Investments</button>
-                {on ? (
-                  <PortfolioInvestments portfolioId={portfolio._id} />
-                ) : null}
-              </div>
-            )}
-          />
+            <Toggler
+              defaultDisplay={false}
+              render={(toggle, on) => (
+                <div>
+                  <button className={styles.showBtn} onClick={toggle}>
+                    Show Investments
+                  </button>
+                  {on ? (
+                    <PortfolioInvestments portfolioId={portfolio._id} />
+                  ) : null}
+                </div>
+              )}
+            />
+          </div>
         </div>
       );
     });

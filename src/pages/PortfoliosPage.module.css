@@ -3,6 +3,79 @@
   height: 100vh;
 }
 
+.page h3 {
+  display: inline-block;
+}
+
+.btnPortfolio {
+  width: 15%;
+  font: inherit;
+  font-size: 0.7rem;
+  font-weight: bolder;
+  margin-left: 1em;
+  display: inline-flex;
+  justify-content: space-evenly;
+}
+
+.investmentTogglerWrapper {
+  width: 75%;
+  margin: auto auto;
+}
+
+.editBtn {
+  border-radius: 2px;
+  text-align: center;
+  width: 30%;
+  padding: 0.05em;
+  color: white;
+  background: royalblue;
+  text-decoration: none;
+}
+
+.dltBtn {
+  border-radius: 2px;
+  color: white;
+  cursor: pointer;
+  background-color: rgb(131, 15, 15);
+  width: 30%;
+  padding: 0.05em;
+  font: inherit;
+  font-size: inherit;
+}
+
+.dltBtn {
+  border-radius: 2px;
+  color: white;
+  cursor: pointer;
+  background-color: rgb(131, 15, 15);
+  width: 30%;
+  padding: 0.05em;
+  font: inherit;
+  font-size: inherit;
+}
+
+.newBtn {
+  border-radius: 2px;
+  color: white;
+  cursor: pointer;
+  background-color: rgb(17, 93, 17);
+  width: 100%;
+  padding: 0.05em;
+  font: inherit;
+  font-size: inherit;
+}
+
+.showBtn {
+  border-radius: 2px;
+  color: white;
+  cursor: pointer;
+  background-color: rgb(138, 104, 11);
+  width: 100%;
+  padding: 0.05em;
+  font: inherit;
+  font-size: inherit;
+}
+
 .portfolioContainer {
   border-radius: 5px;
   border: 2px solid grey;
@@ -12,6 +85,7 @@
   background-color: #f6f6f6;
 }
 
-.page button {
-  background-color: bisque;
-}
+/* .page .portfolioContainer button {
+  border-radius: 2px;
+  background-color: #d8a85a;
+} */

@@ -6,10 +6,17 @@ import Toggler from '../elements/Toggler';
 import ReturnCalculator from '../elements/ReturnCalculator';
 import RealTimePriceFetcher from '../elements/RealTimePriceFetcher';
 import InvestmentReturnCollector from '../elements/InvestmentReturnCollector';
-import styles from './PortfolioInvestment.module.css';
+import styles from './PortfolioInvestments.module.css';
+import FormInput from '../elements/FormInput';
+import InvestmentReturnAnalyser from './InvestmentReturnAnalyser';
 
 export class PortfolioInvestments extends Component {
-  state = { investments: [], investmentProfits: {}, totalReturn: '' };
+  state = {
+    investments: [],
+    investmentProfitsCollection: {},
+    portfolioProfit: '',
+    returnExcludeUnrealised: true,
+  };
 
   async componentDidMount() {
     const { authToken } = this.props;
@@ -34,6 +41,12 @@ export class PortfolioInvestments extends Component {
     }
   }
 
+  handleChangeCalculatorPreference = (event) => {
+    this.setState((prevState) => {
+      return { returnExcludeUnrealised: !prevState.returnExcludeUnrealised };
+    });
+  };
+
   deletePortfolioDisplayed = (event, id) => {
     event.preventDefault();
     console.log('state is reset?', id);
@@ -44,26 +57,45 @@ export class PortfolioInvestments extends Component {
     this.setState({ investments: updatedInvestments });
   };
 
-  calculateTotalReturn = () => {
-    const { investmentProfits } = this.state;
-    let sum = 0;
-    for (let key in investmentProfits) {
-      sum = sum + investmentProfits[key];
+  calculatePortfolioTotalReturn = (event) => {
+    //final piece is in here:
+    event.preventDefault();
+    const { returnExcludeUnrealised, investmentProfitsCollection } = this.state;
+
+    let portfolioProfit;
+    if (returnExcludeUnrealised) {
+      console.log('within here?');
+      let sumOfRealised = 0;
+      for (let key in investmentProfitsCollection) {
+        if (!investmentProfitsCollection[key][0]) {
+          console.log(investmentProfitsCollection[key][1]);
+          sumOfRealised =
+            sumOfRealised + parseInt(investmentProfitsCollection[key][1]);
+        }
+      }
+      portfolioProfit = sumOfRealised;
+    } else {
+      let sumOfAll = 0;
+      for (let key in investmentProfitsCollection) {
+        sumOfAll = sumOfAll + parseInt(investmentProfitsCollection[key][1]);
+      }
+      portfolioProfit = sumOfAll;
     }
-    return sum;
+    // more work to be done in here
+    // console.log(portfolioProfit);
+
+    // after get all the state; set the state and display it
+    this.setState({ portfolioProfit: portfolioProfit });
   };
 
-  updatePortfolioTotalReturn = (investmentId, amount) => {
-    const updatedObject = this.state.investmentProfits;
-    updatedObject[investmentId] = amount;
-    this.setState({
-      investmentProfits: updatedObject,
-    });
-    // I might want to add logic in here to make sure that investmentProfits is updated property before the total
-    // return calculation can be run.
-    const totalReturn = this.calculateTotalReturn();
-    this.setState({
-      totalReturn,
+  updatePortfolioReturnCollection = (investmentId, amount, status) => {
+    const profitData = [status, amount];
+
+    this.setState((prevState) => {
+      const updated = { ...prevState.investmentProfitsCollection };
+      updated[investmentId] = profitData;
+
+      return { investmentProfitsCollection: updated };
     });
   };
 
@@ -77,21 +109,19 @@ export class PortfolioInvestments extends Component {
             return on ? (
               <div>
                 <InvestmentForm
+                  investmentId={investment._id}
                   toggle={toggle}
                   investment={investment}
                   use={'update'}
                   deletePortfolioDisplayed={this.deletePortfolioDisplayed}
                 >
-                  <RealTimePriceFetcher>
-                    <ReturnCalculator>
-                      <InvestmentReturnCollector
-                        investmentId={investment._id}
-                        updatePortfolioTotalReturn={
-                          this.updatePortfolioTotalReturn
-                        }
-                      />
-                    </ReturnCalculator>
-                  </RealTimePriceFetcher>
+                  <RealTimePriceFetcher></RealTimePriceFetcher>
+                  <InvestmentReturnAnalyser
+                    investmentId={investment._id}
+                    updatePortfolioReturnCollection={
+                      this.updatePortfolioReturnCollection
+                    }
+                  />
                 </InvestmentForm>
               </div>
             ) : null;
@@ -105,7 +135,20 @@ export class PortfolioInvestments extends Component {
   render() {
     return (
       <>
-        <div>Total Return : {this.state.totalReturn}</div>
+        <div>Portfolio Return: {this.state.portfolioProfit}</div>
+        <button
+          onClick={this.calculatePortfolioTotalReturn}
+          className={styles.calculatorBtn}
+        >
+          Calculate
+        </button>
+        <FormInput
+          type={'toggle'}
+          name={'returnCalculatorToggle'}
+          id={this.props.portfolioId}
+          className={styles.returnCalculatorToggle}
+          onChange={this.handleChangeCalculatorPreference}
+        />
         <div className={styles.wrapper}>
           {this.state.investments ? this.renderPortfolioInvestments() : null}
         </div>

@@ -1,0 +1,71 @@
+.wrapper {
+  height: 50vh;
+  overflow-y: auto;
+}
+
+.calculatorBtn {
+  background-color: royalblue;
+  color: white;
+  font-weight: 500;
+}
+
+.calculatorBtn:hover {
+  cursor: pointer;
+  background-color: lightblue;
+}
+
+.returnCalculatorToggle {
+  border: 1px solid grey;
+  height: 28px;
+  width: 30%;
+  background: rgba(189, 182, 182, 0.534);
+  border-radius: 2px;
+  position: relative;
+}
+
+.returnCalculatorToggle::before,
+.returnCalculatorToggle::after {
+  position: absolute;
+  font-size: 12px;
+  /* below two style is just for setting the before and after container to the right place */
+  top: 50%;
+  transform: translateY(-50%);
+  font-weight: bold;
+}
+
+.returnCalculatorToggle::before {
+  content: 'Include Unrealised';
+  color: green;
+  left: 12px;
+}
+.returnCalculatorToggle::after {
+  content: 'Exclude Unrealised';
+  color: red;
+  right: 12px;
+}
+
+.returnCalculatorToggle input {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  outline: none;
+  z-index: 2;
+  display: none;
+}
+
+.returnCalculatorToggle label {
+  position: absolute;
+  height: 100%;
+  width: 40%;
+  background: linear-gradient(to bottom, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+  border-radius: 2px;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 5%;
+  transition: 0.2s linear;
+  z-index: 1;
+}
+
+.returnCalculatorToggle input:checked + label {
+  left: 55%;
+}

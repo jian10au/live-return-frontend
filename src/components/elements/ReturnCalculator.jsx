@@ -5,6 +5,7 @@ export class ReturnCalculator extends Component {
     profit: '',
   };
 
+  //only return the profit when we let the
   componentDidMount() {
     const {
       entryPrice,
@@ -45,7 +46,7 @@ export class ReturnCalculator extends Component {
         {profit ? (
           <div>Profit {profit}</div>
         ) : (
-          <div>Please fetch the real time price to see real time</div>
+          <button>show investment profit</button>
         )}
         {React.Children.map(this.props.children, (child) => {
           return React.cloneElement(child, {

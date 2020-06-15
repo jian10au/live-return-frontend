@@ -4,6 +4,7 @@ import styles from '../elements/FormInput.module.css';
 export class FormInput extends Component {
   render() {
     const {
+      className,
       name,
       type,
       placeholder,
@@ -15,41 +16,59 @@ export class FormInput extends Component {
       onFocus,
       onClick,
     } = this.props;
-    console.log(data);
-    return (
-      <div>
-        {type === 'checkbox' ? (
-          <>
-            <label htmlFor={name}>{displayName}</label>
-            <input
-              id={id}
-              type={type}
-              name={name}
-              placeholder={placeholder}
-              required={required}
-              defaultChecked={data}
-              onFocus={onFocus}
-              onChange={onChange}
-            />
-          </>
-        ) : (
-          <>
-            <label htmlFor={name}>{displayName}</label>
-            <input
-              id={id}
-              type={type}
-              name={name}
-              placeholder={placeholder}
-              required={required}
-              onChange={onChange}
-              value={data}
-              onFocus={onFocus}
-              onClick={onClick}
-            />
-          </>
-        )}
-      </div>
-    );
+    if (type === 'checkedbox') {
+      return (
+        <div className={className}>
+          <label htmlFor={name}>{displayName}</label>
+          <input
+            id={id}
+            type={type}
+            name={name}
+            placeholder={placeholder}
+            required={required}
+            defaultChecked={data}
+            onFocus={onFocus}
+            onChange={onChange}
+          />
+        </div>
+      );
+    }
+
+    if (type === 'toggle') {
+      return (
+        <div className={className}>
+          {/* <p>Status Toggle</p> */}
+          <input
+            id={id}
+            type="checkbox"
+            name={name}
+            placeholder={placeholder}
+            required={required}
+            defaultChecked={data}
+            onFocus={onFocus}
+            onChange={onChange}
+          />
+          <label htmlFor={id}>{displayName}</label>
+        </div>
+      );
+    } else {
+      return (
+        <div className={className}>
+          <label htmlFor={name}>{displayName}</label>
+          <input
+            id={id}
+            type={type}
+            name={name}
+            placeholder={placeholder}
+            required={required}
+            onChange={onChange}
+            value={data}
+            onFocus={onFocus}
+            onClick={onClick}
+          />
+        </div>
+      );
+    }
   }
 }
 

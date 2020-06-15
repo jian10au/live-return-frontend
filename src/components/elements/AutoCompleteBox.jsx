@@ -1,6 +1,7 @@
 import React from 'react';
 import { httpRequest } from '../../utils/axios';
 import { fetchUserProfile } from '../../actions/userActions';
+import styles from './AutoComplete.module.css';
 
 export const ReturnSearchEndPoint = (keywords, API_KEY) => {
   return `https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${keywords}&apikey=${API_KEY}`;
@@ -24,8 +25,6 @@ class AutoCompleteBox extends React.Component {
           ReturnSearchEndPoint(quote, process.env.REACT_APP_API_KEY)
         );
 
-        console.log(data.bestMatches, 'what is best matches from didMount');
-        console.log('setState from didmount will run');
         if (this._isMounted) {
           this.setState((prevState) => ({
             isLoaded: !prevState.isLoaded,
@@ -84,7 +83,9 @@ class AutoCompleteBox extends React.Component {
     console.log(this.state.isLoaded, 'what is loading status for AutoComplete');
     const { isLoaded, shares } = this.state;
     return (
-      <div>{isLoaded ? this.renderList() : <div>Wait for data input</div>}</div>
+      <div className={styles.container}>
+        {isLoaded ? this.renderList() : <div>Wait for data input</div>}
+      </div>
       // notice, here instead of saying this.state is empty or not
     );
   }

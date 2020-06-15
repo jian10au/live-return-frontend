@@ -17,3 +17,10 @@ body {
 button {
   border: none;
 }
+
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
